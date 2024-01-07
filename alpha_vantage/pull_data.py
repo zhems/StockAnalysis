@@ -3,7 +3,7 @@ from alpha_vantage import api_keys
 # from api_keys import get_api_key
 import pandas as pd
 
-def generate_dfs(symbol):
+def generate_dfs(symbol, bollinger_range = 2, sma_range = 20):
   print(symbol)
   # replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
   function = 'EARNINGS'
@@ -51,15 +51,15 @@ def generate_dfs(symbol):
   ctr = 0
   for idx, row in tsdaily_df.iterrows():
     try:
-      tsdaily_df.iloc[ctr,6] = tsdaily_df.iloc[ctr:ctr+20,5].std()
-      tsdaily_df.iloc[ctr,7] = tsdaily_df.iloc[ctr:ctr+20,5].mean()
+      tsdaily_df.iloc[ctr,6] = tsdaily_df.iloc[ctr:ctr+sma_range, 5].std()
+      tsdaily_df.iloc[ctr,7] = tsdaily_df.iloc[ctr:ctr+sma_range, 5].mean()
     except:
       print(ctr)
       break
     ctr += 1
   tsdaily_df = tsdaily_df.sort_index()
-  tsdaily_df['BOLU'] = tsdaily_df['SMA'] + 2*tsdaily_df['S.D.']
-  tsdaily_df['BOLD'] = tsdaily_df['SMA'] - 2*tsdaily_df['S.D.']
+  tsdaily_df['BOLU'] = tsdaily_df['SMA'] + bollinger_range * tsdaily_df['S.D.']
+  tsdaily_df['BOLD'] = tsdaily_df['SMA'] - bollinger_range * tsdaily_df['S.D.']
   tsdaily_df['state'] = 0
   for idx, row in tsdaily_df.iterrows():
     if row['4. close'] < row['BOLD']:
