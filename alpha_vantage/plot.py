@@ -8,7 +8,15 @@ def plot_graph(tsdaily_dfs, pe_ratio_dfs, symbol, start_date = '2021-01-01', end
   step = 30
   fig = make_subplots(specs=[[{"secondary_y": True}]])
 
-  tsdaily_df = tsdaily_dfs[symbol].loc[start_date: end_date]
+  if isinstance(tsdaily_dfs, dict) :
+    tsdaily_df = tsdaily_dfs[symbol].loc[start_date: end_date]
+  else:
+    tsdaily_df = tsdaily_dfs.loc[start_date: end_date]
+  if isinstance(pe_ratio_dfs, dict):
+    pe_ratio_df = pe_ratio_dfs[symbol].loc[start_date: end_date]
+  else:
+    pe_ratio_df = pe_ratio_dfs.loc[start_date: end_date]
+
   # Add traces
   fig.add_trace(go.Scatter(x=tsdaily_df.index, y=tsdaily_df['4. close'], name="Daily Price"),secondary_y=False,)
   fig.add_trace(go.Scatter(x=tsdaily_df.index, y=tsdaily_df['SMA'], name="Mid"),secondary_y=False,)
@@ -16,7 +24,6 @@ def plot_graph(tsdaily_dfs, pe_ratio_dfs, symbol, start_date = '2021-01-01', end
   fig.add_trace(go.Scatter(x=tsdaily_df.index, y=tsdaily_df['BOLD'], name="Lower"),secondary_y=False,)
 
 
-  pe_ratio_df = pe_ratio_dfs[symbol].loc[start_date: end_date]
   # Add traces
   fig.add_trace(go.Scatter(x=pe_ratio_df.index, y=pe_ratio_df['PE Ratio'], name="PE"),secondary_y=True,)
   fig.add_trace(go.Scatter(x=pe_ratio_df.index, y=pe_ratio_df['PE Ratio (SMA)'], name="PE (SMA)"),secondary_y=True,)
