@@ -82,7 +82,7 @@ def pull_basic_data(symbol, function = 'OVERVIEW', freq = 'quarterlyReports'):
   return df
 
 def pull_metadata(symbol):
-  url = f'https://www.alphavantage.co/query?function=OVERVIEW&symbol=AAPL&apikey={alpha_vantage.get_api_key()}'
+  url = f'https://www.alphavantage.co/query?function=OVERVIEW&symbol=AAPL&apikey={api_keys.get_api_key()}'
   r = requests.get(url)
   data = r.json()
   return data
