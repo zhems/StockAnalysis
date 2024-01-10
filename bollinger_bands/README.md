@@ -1,0 +1,2 @@
+- sensitivity analysis on range of bollinger to see if profitability is stable
+- backtesting not on model, but on how to identify when the model has drifted too much
