@@ -1,6 +1,6 @@
 # StockAnalysis
 Using APIs from Alpha Vantage, and exploring basic techniques like Bollinger Bands to start
-
+Added new graph to track ROI
 
 ## References
 - https://medium.com/@jan_5421/summarize-sec-filings-with-openai-gtp3-a363282d8d8
